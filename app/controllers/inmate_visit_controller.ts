@@ -15,7 +15,11 @@ export default class InmateVisitController {
     const limit = request.input('limit', 10)
     const inmateId = params.inmateId ? Number(params.inmateId) : request.input('inmate_id')
 
-    const result = await this.listUseCase.execute(inmateId ? Number(inmateId) : undefined, page, limit)
+    const result = await this.listUseCase.execute(
+      inmateId ? Number(inmateId) : undefined,
+      page,
+      limit
+    )
 
     return response.json(result)
   }
@@ -36,9 +40,9 @@ export default class InmateVisitController {
     const visit = await this.createUseCase.execute({
       ...data,
       inmateId,
+      visitDate: data.visitDate.toISOString(),
     })
 
     return response.status(201).json(visit)
   }
 }
-

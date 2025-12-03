@@ -14,7 +14,6 @@ export default class AdminAuthController {
    */
   async login({ request, response }: HttpContext) {
     const { email, password } = await request.validateUsing(adminLoginValidator)
-
     try {
       const result = await this.loginUseCase.execute(email, password)
 
@@ -30,7 +29,8 @@ export default class AdminAuthController {
   async logout({ auth, response }: HttpContext) {
     const admin = auth.getUserOrFail()
     const rawIdentifier = auth.user?.currentAccessToken?.identifier
-    const tokenIdentifier = rawIdentifier !== undefined && rawIdentifier !== null ? String(rawIdentifier) : null
+    const tokenIdentifier =
+      rawIdentifier !== undefined && rawIdentifier !== null ? String(rawIdentifier) : null
     await this.logoutUseCase.execute(admin, tokenIdentifier)
 
     return response.json({ message: 'Logout realizado com sucesso' })
@@ -45,4 +45,3 @@ export default class AdminAuthController {
     return response.json(profile)
   }
 }
-

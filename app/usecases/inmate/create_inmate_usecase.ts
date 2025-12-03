@@ -1,4 +1,5 @@
 import Inmate from '#models/inmate'
+import { DateTime } from 'luxon'
 
 type CreateInmateData = {
   fullName: string
@@ -16,12 +17,12 @@ export default class CreateInmateUseCase {
     const inmate = await Inmate.create({
       fullName: data.fullName,
       registrationNumber: data.registrationNumber,
-      dateOfBirth: data.dateOfBirth ? new Date(data.dateOfBirth) : null,
+      dateOfBirth: data.dateOfBirth ? DateTime.fromISO(data.dateOfBirth) : null,
       gender: data.gender || null,
       cellNumber: data.cellNumber || null,
       status: data.status || 'active',
-      admissionDate: new Date(data.admissionDate),
-      releaseDate: data.releaseDate ? new Date(data.releaseDate) : null,
+      admissionDate: DateTime.fromISO(data.admissionDate),
+      releaseDate: data.releaseDate ? DateTime.fromISO(data.releaseDate) : null,
     })
 
     await inmate.load('observations')
@@ -30,4 +31,3 @@ export default class CreateInmateUseCase {
     return inmate
   }
 }
-

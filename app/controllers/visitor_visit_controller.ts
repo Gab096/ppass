@@ -15,7 +15,11 @@ export default class VisitorVisitController {
     const limit = request.input('limit', 10)
     const visitorId = params.visitorId ? Number(params.visitorId) : request.input('visitor_id')
 
-    const result = await this.listUseCase.execute(visitorId ? Number(visitorId) : undefined, page, limit)
+    const result = await this.listUseCase.execute(
+      visitorId ? Number(visitorId) : undefined,
+      page,
+      limit
+    )
 
     return response.json(result)
   }
@@ -36,9 +40,9 @@ export default class VisitorVisitController {
     const visit = await this.createUseCase.execute({
       ...data,
       visitorId,
+      visitDate: data.visitDate.toISOString(),
     })
 
     return response.status(201).json(visit)
   }
 }
-

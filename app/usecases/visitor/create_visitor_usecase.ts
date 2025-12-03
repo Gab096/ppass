@@ -1,6 +1,5 @@
 import Visitor from '#models/visitor'
 import Inmate from '#models/inmate'
-import { errors } from '@adonisjs/core'
 
 type CreateVisitorData = {
   inmateId: number
@@ -15,7 +14,10 @@ export default class CreateVisitorUseCase {
     const inmate = await Inmate.find(data.inmateId)
 
     if (!inmate) {
-      throw new errors.E_ROW_NOT_FOUND('Inmate não encontrado')
+      const error = new Error('Inmate não encontrado')
+      ;(error as any).status = 404
+      ;(error as any).code = 'E_ROW_NOT_FOUND'
+      throw error
     }
 
     const visitor = await Visitor.create({
@@ -31,4 +33,3 @@ export default class CreateVisitorUseCase {
     return visitor
   }
 }
-

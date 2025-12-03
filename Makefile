@@ -1,4 +1,4 @@
-.PHONY: help build up down restart logs shell migrate seed dev prod
+.PHONY: help build build-full up up-full down restart logs shell migrate seed dev prod
 
 help: ## Mostra esta mensagem de ajuda
 	@echo "Comandos disponíveis:"
@@ -7,8 +7,25 @@ help: ## Mostra esta mensagem de ajuda
 build: ## Constrói as imagens Docker
 	docker-compose build
 
+build-full: ## Constrói as imagens Docker e executa migrations e seeds
+	docker-compose build
+	docker-compose up -d postgres
+	@echo "Aguardando PostgreSQL ficar pronto..."
+	@sleep 5
+	@docker-compose exec -T postgres pg_isready -U postgres || sleep 5
+	npm run build
+	npm run migrate
+	npm run seed
+
 up: ## Inicia os containers em modo produção
 	docker-compose up -d
+
+up-full: ## Inicia os containers, executa migrations e seeds
+	docker-compose up -d
+	@echo "Aguardando serviços ficarem prontos..."
+	@sleep 5
+	npm run migrate
+	npm run seed
 
 down: ## Para e remove os containers
 	docker-compose down
@@ -23,10 +40,13 @@ shell: ## Abre shell no container da aplicação
 	docker-compose exec app sh
 
 migrate: ## Executa as migrations
-	docker-compose exec app node ace migration:run
+	npm run migrate
 
 seed: ## Executa os seeders
-	docker-compose exec app node ace db:seed
+	npm run seed
+
+setup: ## Executa migrations e seeds
+	npm run setup
 
 dev: ## Inicia em modo desenvolvimento
 	docker-compose -f docker-compose.dev.yml up

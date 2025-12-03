@@ -1,6 +1,5 @@
 import InmateObservation from '#models/inmate_observation'
 import Inmate from '#models/inmate'
-import { errors } from '@adonisjs/core'
 
 type CreateInmateObservationData = {
   inmateId: number
@@ -16,7 +15,10 @@ export default class CreateInmateObservationUseCase {
     const inmate = await Inmate.find(data.inmateId)
 
     if (!inmate) {
-      throw new errors.E_ROW_NOT_FOUND('Inmate não encontrado')
+      const error = new Error('Inmate não encontrado')
+      ;(error as any).status = 404
+      ;(error as any).code = 'E_ROW_NOT_FOUND'
+      throw error
     }
 
     const observation = await InmateObservation.create({
@@ -36,4 +38,3 @@ export default class CreateInmateObservationUseCase {
     return observation
   }
 }
-

@@ -1,6 +1,6 @@
 import InmateVisit from '#models/inmate_visit'
 import Inmate from '#models/inmate'
-import { errors } from '@adonisjs/core'
+import { DateTime } from 'luxon'
 
 type CreateInmateVisitData = {
   inmateId: number
@@ -20,7 +20,10 @@ export default class CreateInmateVisitUseCase {
     const inmate = await Inmate.find(data.inmateId)
 
     if (!inmate) {
-      throw new errors.E_ROW_NOT_FOUND('Inmate não encontrado')
+      const error = new Error('Inmate não encontrado')
+      ;(error as any).status = 404
+      ;(error as any).code = 'E_ROW_NOT_FOUND'
+      throw error
     }
 
     const visit = await InmateVisit.create({
@@ -28,7 +31,7 @@ export default class CreateInmateVisitUseCase {
       visitorName: data.visitorName,
       visitorDocument: data.visitorDocument || null,
       relationship: data.relationship || null,
-      visitDate: new Date(data.visitDate),
+      visitDate: DateTime.fromISO(data.visitDate),
       visitDuration: data.visitDuration || null,
       visitType: data.visitType || 'family',
       status: data.status || 'scheduled',
@@ -42,4 +45,3 @@ export default class CreateInmateVisitUseCase {
     return visit
   }
 }
-

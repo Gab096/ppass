@@ -1,6 +1,6 @@
 import VisitorVisit from '#models/visitor_visit'
 import Visitor from '#models/visitor'
-import { errors } from '@adonisjs/core'
+import { DateTime } from 'luxon'
 
 type CreateVisitorVisitData = {
   visitorId: number
@@ -17,12 +17,15 @@ export default class CreateVisitorVisitUseCase {
     const visitor = await Visitor.find(data.visitorId)
 
     if (!visitor) {
-      throw new errors.E_ROW_NOT_FOUND('Visitor não encontrado')
+      const error = new Error('Visitor não encontrado')
+      ;(error as any).status = 404
+      ;(error as any).code = 'E_ROW_NOT_FOUND'
+      throw error
     }
 
     const visit = await VisitorVisit.create({
       visitorId: data.visitorId,
-      visitDate: new Date(data.visitDate),
+      visitDate: DateTime.fromISO(data.visitDate),
       visitDuration: data.visitDuration || null,
       visitType: data.visitType || 'family',
       status: data.status || 'scheduled',
@@ -36,4 +39,3 @@ export default class CreateVisitorVisitUseCase {
     return visit
   }
 }
-

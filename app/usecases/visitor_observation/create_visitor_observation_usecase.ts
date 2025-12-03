@@ -1,6 +1,5 @@
 import VisitorObservation from '#models/visitor_observation'
 import Visitor from '#models/visitor'
-import { errors } from '@adonisjs/core'
 
 type CreateVisitorObservationData = {
   visitorId: number
@@ -16,7 +15,10 @@ export default class CreateVisitorObservationUseCase {
     const visitor = await Visitor.find(data.visitorId)
 
     if (!visitor) {
-      throw new errors.E_ROW_NOT_FOUND('Visitor não encontrado')
+      const error = new Error('Visitor não encontrado')
+      ;(error as any).status = 404
+      ;(error as any).code = 'E_ROW_NOT_FOUND'
+      throw error
     }
 
     const observation = await VisitorObservation.create({
@@ -36,4 +38,3 @@ export default class CreateVisitorObservationUseCase {
     return observation
   }
 }
-

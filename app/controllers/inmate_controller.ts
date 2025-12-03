@@ -31,7 +31,12 @@ export default class InmateController {
    */
   async store({ request, response }: HttpContext) {
     const data = await request.validateUsing(createInmateValidator)
-    const inmate = await this.createUseCase.execute(data)
+    const inmate = await this.createUseCase.execute({
+      ...data,
+      dateOfBirth: data.dateOfBirth ? data.dateOfBirth.toISOString() : null,
+      admissionDate: data.admissionDate.toISOString(),
+      releaseDate: data.releaseDate ? data.releaseDate.toISOString() : null,
+    })
 
     return response.status(201).json(inmate)
   }
@@ -50,7 +55,12 @@ export default class InmateController {
    */
   async update({ params, request, response }: HttpContext) {
     const data = await request.validateUsing(updateInmateValidator)
-    const inmate = await this.updateUseCase.execute(params.id, data)
+    const inmate = await this.updateUseCase.execute(params.id, {
+      ...data,
+      dateOfBirth: data.dateOfBirth ? data.dateOfBirth.toISOString() : null,
+      admissionDate: data.admissionDate ? data.admissionDate.toISOString() : undefined,
+      releaseDate: data.releaseDate ? data.releaseDate.toISOString() : null,
+    })
 
     return response.json(inmate)
   }
@@ -64,4 +74,3 @@ export default class InmateController {
     return response.noContent()
   }
 }
-
