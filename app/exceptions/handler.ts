@@ -13,6 +13,31 @@ export default class HttpExceptionHandler extends ExceptionHandler {
    * response to the client
    */
   async handle(error: unknown, ctx: HttpContext) {
+    // Tratar erros de autenticação do AdonisJS
+    // Verificar se é erro de autenticação através do código ou nome da exceção
+    if (error && typeof error === 'object') {
+      const errorObj = error as any
+      
+      // Verificar código de erro
+      if (errorObj.code === 'E_UNAUTHORIZED_ACCESS' || errorObj.code === 'E_INVALID_ACCESS_TOKEN') {
+        return ctx.response.status(401).json({
+          message: 'Sessão expirada. Por favor, faça login novamente.',
+          code: errorObj.code,
+        })
+      }
+
+      // Verificar nome da exceção
+      if (
+        errorObj.name === 'E_UNAUTHORIZED_ACCESS' ||
+        errorObj.constructor?.name === 'E_UNAUTHORIZED_ACCESS'
+      ) {
+        return ctx.response.status(401).json({
+          message: 'Sessão expirada. Por favor, faça login novamente.',
+          code: 'E_UNAUTHORIZED_ACCESS',
+        })
+      }
+    }
+
     return super.handle(error, ctx)
   }
 

@@ -4,6 +4,7 @@ import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
 import Inmate from './inmate.js'
 import VisitorObservation from './visitor_observation.js'
 import VisitorVisit from './visitor_visit.js'
+import VisitorStatus from './visitor_status.js'
 
 export default class Visitor extends BaseModel {
   @column({ isPrimary: true })
@@ -17,6 +18,18 @@ export default class Visitor extends BaseModel {
 
   @column()
   declare documentNumber: string | null
+
+  @column()
+  declare barcode: string | null
+
+  @column()
+  declare profilePhoto: string | null
+
+  @column()
+  declare isAffiliatedToCriminalOrganization: boolean
+
+  @column()
+  declare criminalOrganizationName: string | null
 
   @column()
   declare relationship: string | null
@@ -38,5 +51,7 @@ export default class Visitor extends BaseModel {
 
   @hasMany(() => VisitorVisit)
   declare visits: HasMany<typeof VisitorVisit>
-}
 
+  @hasMany(() => VisitorStatus)
+  declare statuses: HasMany<typeof VisitorStatus>
+}

@@ -5,6 +5,10 @@ type CreateVisitorData = {
   inmateId: number
   fullName: string
   documentNumber?: string | null
+  barcode?: string | null
+  profilePhoto?: string | null
+  isAffiliatedToCriminalOrganization?: boolean
+  criminalOrganizationName?: string | null
   relationship?: string | null
   notes?: string | null
 }
@@ -24,6 +28,10 @@ export default class CreateVisitorUseCase {
       inmateId: data.inmateId,
       fullName: data.fullName,
       documentNumber: data.documentNumber || null,
+      barcode: data.barcode || null,
+      profilePhoto: data.profilePhoto || null,
+      isAffiliatedToCriminalOrganization: data.isAffiliatedToCriminalOrganization || false,
+      criminalOrganizationName: data.criminalOrganizationName || null,
       relationship: data.relationship || null,
       notes: data.notes || null,
     })

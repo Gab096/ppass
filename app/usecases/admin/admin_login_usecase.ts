@@ -1,3 +1,4 @@
+import { DateTime } from 'luxon'
 import Admin from '#models/admin'
 
 type LoginResult = {
@@ -16,6 +17,8 @@ export default class AdminLoginUseCase {
    */
   async execute(email: string, password: string): Promise<LoginResult> {
     const admin = await Admin.verifyCredentials(email, password)
+    
+    // Criar token (o AdonisJS gerencia a expiração automaticamente)
     const token = await Admin.accessTokens.create(admin)
 
     return {

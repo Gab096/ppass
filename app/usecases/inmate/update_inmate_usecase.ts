@@ -4,6 +4,9 @@ import { DateTime } from 'luxon'
 type UpdateInmateData = {
   fullName?: string
   registrationNumber?: string
+  profilePhoto?: string | null
+  isAffiliatedToCriminalOrganization?: boolean
+  criminalOrganizationName?: string | null
   dateOfBirth?: string | null
   gender?: string | null
   cellNumber?: string | null
@@ -25,6 +28,11 @@ export default class UpdateInmateUseCase {
 
     if (data.fullName) inmate.fullName = data.fullName
     if (data.registrationNumber) inmate.registrationNumber = data.registrationNumber
+    if (data.profilePhoto !== undefined) inmate.profilePhoto = data.profilePhoto || null
+    if (data.isAffiliatedToCriminalOrganization !== undefined)
+      inmate.isAffiliatedToCriminalOrganization = data.isAffiliatedToCriminalOrganization
+    if (data.criminalOrganizationName !== undefined)
+      inmate.criminalOrganizationName = data.criminalOrganizationName || null
     if (data.dateOfBirth !== undefined)
       inmate.dateOfBirth = data.dateOfBirth ? DateTime.fromISO(data.dateOfBirth) : null
     if (data.gender !== undefined) inmate.gender = data.gender || null

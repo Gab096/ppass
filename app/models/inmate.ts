@@ -3,6 +3,7 @@ import { BaseModel, column, hasMany } from '@adonisjs/lucid/orm'
 import type { HasMany } from '@adonisjs/lucid/types/relations'
 import InmateObservation from './inmate_observation.js'
 import InmateVisit from './inmate_visit.js'
+import InmateStatus from './inmate_status.js'
 import Visitor from './visitor.js'
 
 export default class Inmate extends BaseModel {
@@ -14,6 +15,18 @@ export default class Inmate extends BaseModel {
 
   @column()
   declare registrationNumber: string
+
+  @column()
+  declare barcode: string | null
+
+  @column()
+  declare profilePhoto: string | null
+
+  @column()
+  declare isAffiliatedToCriminalOrganization: boolean
+
+  @column()
+  declare criminalOrganizationName: string | null
 
   @column.date()
   declare dateOfBirth: DateTime | null
@@ -47,5 +60,8 @@ export default class Inmate extends BaseModel {
 
   @hasMany(() => Visitor)
   declare visitors: HasMany<typeof Visitor>
+
+  @hasMany(() => InmateStatus)
+  declare statuses: HasMany<typeof InmateStatus>
 }
 

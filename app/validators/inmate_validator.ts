@@ -7,6 +7,9 @@ export const createInmateValidator = vine.compile(
   vine.object({
     fullName: vine.string().trim().minLength(3),
     registrationNumber: vine.string().trim().minLength(1),
+    barcode: vine.string().trim().optional(),
+    isAffiliatedToCriminalOrganization: vine.boolean().optional(),
+    criminalOrganizationName: vine.string().trim().optional(),
     dateOfBirth: vine.date().optional(),
     gender: vine.string().trim().optional(),
     cellNumber: vine.string().trim().optional(),
@@ -23,6 +26,9 @@ export const updateInmateValidator = vine.compile(
   vine.object({
     fullName: vine.string().trim().minLength(3).optional(),
     registrationNumber: vine.string().trim().minLength(1).optional(),
+    barcode: vine.string().trim().optional(),
+    isAffiliatedToCriminalOrganization: vine.boolean().optional(),
+    criminalOrganizationName: vine.string().trim().optional(),
     dateOfBirth: vine.date().optional(),
     gender: vine.string().trim().optional(),
     cellNumber: vine.string().trim().optional(),

@@ -1,23 +1,26 @@
-import Inmate from '#models/inmate'
+import Visitor from '#models/visitor'
 
-export default class GetInmateUseCase {
+export default class GetVisitorUseCase {
   async execute(id: number) {
-    const inmate = await Inmate.query()
+    const visitor = await Visitor.query()
       .where('id', id)
+      .preload('inmate')
       .preload('observations')
-      .preload('visitors')
+      .preload('visits')
       .preload('statuses', (query) => {
         query.preload('admin')
       })
       .first()
 
-    if (!inmate) {
-      const error = new Error('Inmate não encontrado')
+    if (!visitor) {
+      const error = new Error('Visitor não encontrado')
       ;(error as any).status = 404
       ;(error as any).code = 'E_ROW_NOT_FOUND'
       throw error
     }
 
-    return inmate
+    return visitor
   }
 }
+
+
