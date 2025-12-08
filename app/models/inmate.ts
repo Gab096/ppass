@@ -8,7 +8,7 @@ import Visitor from './visitor.js'
 
 export default class Inmate extends BaseModel {
   @column({ isPrimary: true })
-  declare id: number
+  declare id: string
 
   @column()
   declare fullName: string

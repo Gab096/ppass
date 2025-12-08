@@ -3,7 +3,7 @@ import Inmate from '#models/inmate'
 import { DateTime } from 'luxon'
 
 type CreateInmateVisitData = {
-  inmateId: number
+  inmateId: string
   visitorName: string
   visitorDocument?: string | null
   relationship?: string | null

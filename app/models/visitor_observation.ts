@@ -7,13 +7,13 @@ import VisitorVisit from './visitor_visit.js'
 export default class VisitorObservation extends BaseModel {
   static readonly table = 'visitor_observations'
   @column({ isPrimary: true })
-  declare id: number
+  declare id: string
 
   @column()
-  declare visitorId: number
+  declare visitorId: string
 
   @column()
-  declare visitorVisitId: number | null
+  declare visitorVisitId: string | null
 
   @column()
   declare title: string

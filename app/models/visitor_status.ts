@@ -7,13 +7,13 @@ import Admin from './admin.js'
 export default class VisitorStatus extends BaseModel {
   static readonly table = 'visitor_statuses'
   @column({ isPrimary: true })
-  declare id: number
+  declare id: string
 
   @column()
-  declare visitorId: number
+  declare visitorId: string
 
   @column()
-  declare adminId: number | null
+  declare adminId: string | null
 
   @column()
   declare status: 'liberado' | 'bloqueado' | 'atenção'

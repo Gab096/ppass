@@ -4,11 +4,11 @@ import InmateStatus from '#models/inmate_status'
 type UpdateInmateStatusData = {
   status: 'liberado' | 'bloqueado' | 'atenção'
   notes?: string | null
-  adminId?: number | null
+  adminId?: string | null
 }
 
 export default class UpdateInmateStatusUseCase {
-  async execute(inmateId: number, data: UpdateInmateStatusData) {
+  async execute(inmateId: string, data: UpdateInmateStatusData) {
     const inmate = await Inmate.find(inmateId)
 
     if (!inmate) {

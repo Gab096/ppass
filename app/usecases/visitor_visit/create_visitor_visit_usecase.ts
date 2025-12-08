@@ -3,7 +3,7 @@ import Visitor from '#models/visitor'
 import { DateTime } from 'luxon'
 
 type CreateVisitorVisitData = {
-  visitorId: number
+  visitorId: string
   visitDate: string
   visitDuration?: number | null
   visitType?: 'family' | 'legal' | 'medical' | 'other'

@@ -5,7 +5,7 @@ import vine from '@vinejs/vine'
  */
 export const createInmateVisitValidator = vine.compile(
   vine.object({
-    inmateId: vine.number().optional(),
+    inmateId: vine.string().uuid().optional(),
     visitorName: vine.string().trim().minLength(3),
     visitorDocument: vine.string().trim().optional(),
     relationship: vine.string().trim().optional(),

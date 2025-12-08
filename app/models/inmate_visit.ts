@@ -8,10 +8,10 @@ export default class InmateVisit extends BaseModel {
   static readonly table = 'inmate_visits'
 
   @column({ isPrimary: true })
-  declare id: number
+  declare id: string
 
   @column()
-  declare inmateId: number
+  declare inmateId: string
 
   @column()
   declare visitorName: string

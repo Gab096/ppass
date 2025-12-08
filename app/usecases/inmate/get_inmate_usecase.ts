@@ -1,7 +1,7 @@
 import Inmate from '#models/inmate'
 
 export default class GetInmateUseCase {
-  async execute(id: number) {
+  async execute(id: string) {
     const inmate = await Inmate.query()
       .where('id', id)
       .preload('observations')

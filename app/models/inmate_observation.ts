@@ -7,13 +7,13 @@ import InmateVisit from './inmate_visit.js'
 export default class InmateObservation extends BaseModel {
   static readonly table = 'inmate_observations'
   @column({ isPrimary: true })
-  declare id: number
+  declare id: string
 
   @column()
-  declare inmateId: number
+  declare inmateId: string
 
   @column()
-  declare inmateVisitId: number | null
+  declare inmateVisitId: string | null
 
   @column()
   declare title: string

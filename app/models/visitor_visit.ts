@@ -8,10 +8,10 @@ export default class VisitorVisit extends BaseModel {
   static readonly table = 'visitor_visits'
 
   @column({ isPrimary: true })
-  declare id: number
+  declare id: string
 
   @column()
-  declare visitorId: number
+  declare visitorId: string
 
   @column.dateTime()
   declare visitDate: DateTime

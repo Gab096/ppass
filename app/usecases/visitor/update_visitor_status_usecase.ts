@@ -4,11 +4,11 @@ import VisitorStatus from '#models/visitor_status'
 type UpdateVisitorStatusData = {
   status: 'liberado' | 'bloqueado' | 'atenção'
   notes?: string | null
-  adminId?: number | null
+  adminId?: string | null
 }
 
 export default class UpdateVisitorStatusUseCase {
-  async execute(visitorId: number, data: UpdateVisitorStatusData) {
+  async execute(visitorId: string, data: UpdateVisitorStatusData) {
     const visitor = await Visitor.find(visitorId)
 
     if (!visitor) {

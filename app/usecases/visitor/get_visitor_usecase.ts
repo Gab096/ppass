@@ -1,7 +1,7 @@
 import Visitor from '#models/visitor'
 
 export default class GetVisitorUseCase {
-  async execute(id: number) {
+  async execute(id: string) {
     const visitor = await Visitor.query()
       .where('id', id)
       .preload('inmate')

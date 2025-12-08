@@ -1,7 +1,7 @@
 import Inmate from '#models/inmate'
 
 export default class DeleteInmateUseCase {
-  async execute(id: number) {
+  async execute(id: string) {
     const inmate = await Inmate.find(id)
 
     if (!inmate) {

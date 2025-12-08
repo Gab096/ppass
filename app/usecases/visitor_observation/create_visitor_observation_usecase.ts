@@ -2,8 +2,8 @@ import VisitorObservation from '#models/visitor_observation'
 import Visitor from '#models/visitor'
 
 type CreateVisitorObservationData = {
-  visitorId: number
-  visitorVisitId?: number | null
+  visitorId: string
+  visitorVisitId?: string | null
   title: string
   description: string
   observationType?: 'behavioral' | 'suspicious' | 'compliant' | 'general'

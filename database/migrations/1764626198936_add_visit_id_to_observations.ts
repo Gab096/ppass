@@ -5,8 +5,7 @@ export default class extends BaseSchema {
     // Adicionar inmate_visit_id à tabela inmate_observations
     this.schema.alterTable('inmate_observations', (table) => {
       table
-        .integer('inmate_visit_id')
-        .unsigned()
+        .uuid('inmate_visit_id')
         .nullable()
         .references('id')
         .inTable('inmate_visits')
@@ -17,8 +16,7 @@ export default class extends BaseSchema {
     // Adicionar visitor_visit_id à tabela visitor_observations
     this.schema.alterTable('visitor_observations', (table) => {
       table
-        .integer('visitor_visit_id')
-        .unsigned()
+        .uuid('visitor_visit_id')
         .nullable()
         .references('id')
         .inTable('visitor_visits')

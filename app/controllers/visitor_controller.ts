@@ -23,7 +23,7 @@ export default class VisitorController {
     const limit = request.input('limit', 10)
     const inmateId = request.input('inmate_id')
 
-    const result = await this.listUseCase.execute(inmateId ? Number(inmateId) : undefined, page, limit)
+    const result = await this.listUseCase.execute(inmateId || undefined, page, limit)
 
     return response.json(result)
   }

@@ -5,8 +5,8 @@ import vine from '@vinejs/vine'
  */
 export const createInmateObservationValidator = vine.compile(
   vine.object({
-    inmateId: vine.number().optional(),
-    inmateVisitId: vine.number().optional(),
+    inmateId: vine.string().uuid().optional(),
+    inmateVisitId: vine.string().uuid().optional(),
     title: vine.string().trim().minLength(3),
     description: vine.string().trim().minLength(5),
     observationType: vine.enum(['medical', 'behavioral', 'disciplinary', 'general']).optional(),
@@ -31,8 +31,8 @@ export const updateInmateObservationValidator = vine.compile(
  */
 export const createVisitorObservationValidator = vine.compile(
   vine.object({
-    visitorId: vine.number().optional(),
-    visitorVisitId: vine.number().optional(),
+    visitorId: vine.string().uuid().optional(),
+    visitorVisitId: vine.string().uuid().optional(),
     title: vine.string().trim().minLength(3),
     description: vine.string().trim().minLength(5),
     observationType: vine.enum(['behavioral', 'suspicious', 'compliant', 'general']).optional(),

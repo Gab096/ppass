@@ -16,7 +16,7 @@ type UpdateInmateData = {
 }
 
 export default class UpdateInmateUseCase {
-  async execute(id: number, data: UpdateInmateData) {
+  async execute(id: string, data: UpdateInmateData) {
     const inmate = await Inmate.find(id)
 
     if (!inmate) {

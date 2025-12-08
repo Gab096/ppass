@@ -73,6 +73,16 @@ router
     router.get('/admin/profile', '#controllers/admin_auth_controller.me')
     router.post('/admin/logout', '#controllers/admin_auth_controller.logout')
 
+    // Rotas de gerenciamento de admins (apenas super admin)
+    router
+      .group(() => {
+        router.get('/admin/admins', '#controllers/admin_management_controller.index')
+        router.post('/admin/admins', '#controllers/admin_management_controller.store')
+        router.put('/admin/admins/:id', '#controllers/admin_management_controller.update')
+        router.delete('/admin/admins/:id', '#controllers/admin_management_controller.destroy')
+      })
+      .use(middleware.superAdmin())
+
     // Busca unificada por código de barras (busca em inmates e visitors)
     router.get('/search/barcode/:barcode', '#controllers/search_controller.findByBarcode')
 
@@ -122,6 +132,14 @@ router
     router.post(
       '/visitors/:visitorId/observations',
       '#controllers/visitor_observation_controller.store'
+    )
+    router.put(
+      '/visitor-observations/:id',
+      '#controllers/visitor_observation_controller.update'
+    )
+    router.delete(
+      '/visitor-observations/:id',
+      '#controllers/visitor_observation_controller.destroy'
     )
     router.get('/visitor-observations', '#controllers/visitor_observation_controller.index')
     router.post('/visitor-observations', '#controllers/visitor_observation_controller.store')

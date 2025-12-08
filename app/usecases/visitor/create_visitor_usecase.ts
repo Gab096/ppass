@@ -2,7 +2,7 @@ import Visitor from '#models/visitor'
 import Inmate from '#models/inmate'
 
 type CreateVisitorData = {
-  inmateId: number
+  inmateId: string
   fullName: string
   documentNumber?: string | null
   barcode?: string | null

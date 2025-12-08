@@ -2,8 +2,8 @@ import InmateObservation from '#models/inmate_observation'
 import Inmate from '#models/inmate'
 
 type CreateInmateObservationData = {
-  inmateId: number
-  inmateVisitId?: number | null
+  inmateId: string
+  inmateVisitId?: string | null
   title: string
   description: string
   observationType?: 'medical' | 'behavioral' | 'disciplinary' | 'general'

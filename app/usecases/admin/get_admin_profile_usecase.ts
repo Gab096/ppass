@@ -1,9 +1,11 @@
 import Admin from '#models/admin'
 
 type ProfileResult = {
-  id: number
+  id: string
   email: string
   fullName: string | null
+  accessLevel: number
+  cargo: string | null
   createdAt: Admin['createdAt']
 }
 
@@ -16,6 +18,8 @@ export default class GetAdminProfileUseCase {
       id: admin.id,
       email: admin.email,
       fullName: admin.fullName,
+      accessLevel: admin.accessLevel,
+      cargo: admin.cargo,
       createdAt: admin.createdAt,
     }
   }

@@ -8,7 +8,7 @@ type DashboardStats = {
 type DashboardResult = {
   message: string
   admin: {
-    id: number
+    id: string
     email: string
     fullName: string | null
   }

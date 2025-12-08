@@ -8,10 +8,10 @@ import VisitorStatus from './visitor_status.js'
 
 export default class Visitor extends BaseModel {
   @column({ isPrimary: true })
-  declare id: number
+  declare id: string
 
   @column()
-  declare inmateId: number
+  declare inmateId: string
 
   @column()
   declare fullName: string
