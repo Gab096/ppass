@@ -1,5 +1,4 @@
 import Admin from '#models/admin'
-import Database from '@adonisjs/lucid/services/db'
 import { DateTime } from 'luxon'
 
 type LoginResult = {
@@ -21,32 +20,22 @@ export default class AdminLoginUseCase {
   async execute(email: string, password: string): Promise<LoginResult> {
     const admin = await Admin.verifyCredentials(email, password)
 
-    // Criar token
-    const token = await Admin.accessTokens.create(admin)
-    const tokenValue = token.value!.release()
-
-    // Configurar expiração de 24 horas e atualizar no banco
+    // Configurar expiração de 24 horas
     const expiresAt = DateTime.now().plus({ hours: 24 })
-    await Database.from('admin_access_tokens')
-      .where('tokenable_id', admin.id)
-      .where('type', 'admin')
-      .orderBy('created_at', 'desc')
-      .limit(1)
-      .update({
-        expires_at: expiresAt.toJSDate(),
-      })
+    const expiresAtISO = expiresAt.toISO()
 
-    // Buscar o token do banco para obter o expiresAt atualizado
-    const tokenRecord = await Database.from('admin_access_tokens')
-      .where('tokenable_id', admin.id)
-      .where('type', 'admin')
-      .orderBy('created_at', 'desc')
-      .first()
+    // expires_at usa o mesmo valor de expiresAt (24 horas = 86400 segundos)
+    const expires_at = expiresAt
+
+    // Criar token - expiresIn em segundos baseado no mesmo expiresAt
+    const expiresInSeconds = expiresAt.diff(DateTime.now(), 'seconds').seconds
+    const token = await Admin.accessTokens.create(admin, [], { expiresIn: expiresInSeconds })
+    const tokenValue = token.value!.release()
 
     return {
       type: 'bearer',
       token: tokenValue,
-      expiresAt: tokenRecord?.expires_at ? new Date(tokenRecord.expires_at).toISOString() : null,
+      expiresAt: expiresAtISO,
       admin: {
         id: admin.id,
         email: admin.email,
