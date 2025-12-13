@@ -24,9 +24,6 @@ export default class AdminLoginUseCase {
     const expiresAt = DateTime.now().plus({ hours: 24 })
     const expiresAtISO = expiresAt.toISO()
 
-    // expires_at usa o mesmo valor de expiresAt (24 horas = 86400 segundos)
-    const expires_at = expiresAt
-
     // Criar token - expiresIn em segundos baseado no mesmo expiresAt
     const expiresInSeconds = expiresAt.diff(DateTime.now(), 'seconds').seconds
     const token = await Admin.accessTokens.create(admin, [], { expiresIn: expiresInSeconds })

@@ -39,7 +39,7 @@ export default class VisitorVisitController {
 
     const visit = await this.createUseCase.execute({
       ...data,
-      visitorId,
+      visitorId: String(visitorId),
       visitDate: data.visitDate.toISOString(),
     })
 

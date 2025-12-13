@@ -35,7 +35,7 @@ export default class InmateObservationController {
     
     const observation = await this.createUseCase.execute({
       ...data,
-      inmateId,
+      inmateId: String(inmateId),
     })
 
     return response.status(201).json(observation)

@@ -9,7 +9,7 @@
     "build": "node ace build",
     "build:full": "node ace build && node ace migration:run && node ace db:seed",
     "dev": "node ace serve --hmr",
-    "dev:network": "HOST=0.0.0.0 node ace serve --hmr",
+    "dev:network": "node scripts/dev-network.js",
     "migrate": "node ace migration:run",
     "seed": "node ace db:seed",
     "setup": "node ace migration:run && node ace db:seed",
@@ -17,7 +17,9 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "typecheck": "tsc --noEmit",
-    "get-ip": "bash scripts/get-local-ip.sh"
+    "get-ip": "node scripts/get-local-ip.js",
+    "get-ip:win": "scripts\\get-local-ip.bat",
+    "get-ip:unix": "bash scripts/get-local-ip.sh"
   },
   "imports": {
     "#controllers/*": "./app/controllers/*.js",
