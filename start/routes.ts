@@ -25,36 +25,38 @@ router.get('/uploads/:folder/:filename', async ({ params, response }) => {
   try {
     const { folder, filename } = params
     const filePath = join(app.makePath('public'), 'uploads', folder, filename)
-    
+
     console.log('Tentando servir arquivo:', filePath)
-    
+
     // Verificar se o arquivo existe
     const { existsSync } = await import('node:fs')
     if (!existsSync(filePath)) {
       console.error('Arquivo não encontrado:', filePath)
       return response.status(404).json({ message: 'Arquivo não encontrado', path: filePath })
     }
-    
+
     const file = await readFile(filePath)
     const ext = filename.split('.').pop()?.toLowerCase()
-    
+
     // Mapeamento de extensões para tipos MIME
     const mimeTypes: Record<string, string> = {
-      'jpg': 'image/jpeg',
-      'jpeg': 'image/jpeg',
-      'png': 'image/png',
-      'webp': 'image/webp',
-      'gif': 'image/gif',
-      'bmp': 'image/bmp',
-      'tiff': 'image/tiff',
-      'tif': 'image/tiff',
-      'heic': 'image/heic',
-      'heif': 'image/heif',
-      'svg': 'image/svg+xml',
+      jpg: 'image/jpeg',
+      jpeg: 'image/jpeg',
+      png: 'image/png',
+      webp: 'image/webp',
+      gif: 'image/gif',
+      bmp: 'image/bmp',
+      tiff: 'image/tiff',
+      tif: 'image/tiff',
+      heic: 'image/heic',
+      heif: 'image/heif',
+      svg: 'image/svg+xml',
     }
-    
-    const contentType = ext ? (mimeTypes[ext] || 'application/octet-stream') : 'application/octet-stream'
-    
+
+    const contentType = ext
+      ? mimeTypes[ext] || 'application/octet-stream'
+      : 'application/octet-stream'
+
     console.log('Arquivo servido com sucesso:', filename, 'Tipo:', contentType)
     return response.type(contentType).send(file)
   } catch (error: any) {
@@ -133,15 +135,16 @@ router
       '/visitors/:visitorId/observations',
       '#controllers/visitor_observation_controller.store'
     )
-    router.put(
-      '/visitor-observations/:id',
-      '#controllers/visitor_observation_controller.update'
-    )
+    router.put('/visitor-observations/:id', '#controllers/visitor_observation_controller.update')
     router.delete(
       '/visitor-observations/:id',
       '#controllers/visitor_observation_controller.destroy'
     )
     router.get('/visitor-observations', '#controllers/visitor_observation_controller.index')
     router.post('/visitor-observations', '#controllers/visitor_observation_controller.store')
+
+    // Rotas de Check-in/Check-out de Visitantes
+    router.get('/visitors/:visitorId/checkins', '#controllers/visitor_checkin_controller.index')
+    router.post('/visitors/:visitorId/checkins', '#controllers/visitor_checkin_controller.store')
   })
   .use(middleware.admin())

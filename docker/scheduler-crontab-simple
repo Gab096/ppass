@@ -1,0 +1,4 @@
+# Crontab simplificado para check-out automático
+# Executa todos os dias às 18:00 (horário de Brasília)
+# Variáveis de ambiente necessárias para o comando funcionar
+0 18 * * * cd /app && PORT=3333 HOST=0.0.0.0 /usr/local/bin/node ace auto:checkout-visitors >> /var/log/cron.log 2>&1

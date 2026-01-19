@@ -1,0 +1,46 @@
+# Dockerfile para o serviço de scheduler (cron jobs)
+FROM node:20-alpine
+
+# Instalar cron e outras dependências necessárias
+RUN apk add --no-cache dcron tzdata
+
+# Configurar timezone (opcional, ajuste conforme necessário)
+ENV TZ=America/Sao_Paulo
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+WORKDIR /app
+
+# Copiar arquivos de dependências
+COPY package*.json ./
+COPY tsconfig.json ./
+COPY adonisrc.ts ./
+
+# Instalar dependências
+RUN npm ci
+
+# Copiar código fonte
+COPY . .
+
+# Criar diretório para logs
+RUN mkdir -p /var/log
+
+# Copiar script de entrada
+COPY docker/scheduler-entrypoint.sh /usr/local/bin/scheduler-entrypoint.sh
+RUN chmod +x /usr/local/bin/scheduler-entrypoint.sh
+
+# Copiar crontab (formato para /etc/cron.d/)
+COPY docker/scheduler-crontab /etc/cron.d/scheduler-crontab
+RUN chmod 0644 /etc/cron.d/scheduler-crontab
+
+# Copiar crontab simplificado para instalação via crontab command
+COPY docker/scheduler-crontab-simple /etc/cron.d/scheduler-crontab-simple
+RUN chmod 0644 /etc/cron.d/scheduler-crontab-simple
+
+# Criar arquivo de log
+RUN touch /var/log/cron.log
+
+# Script de entrada
+ENTRYPOINT ["/usr/local/bin/scheduler-entrypoint.sh"]
+
+# Comando padrão (será sobrescrito pelo entrypoint)
+CMD ["crond", "-f"]

@@ -1,0 +1,14 @@
+# Crontab para check-out automático de visitantes
+# Executa todos os dias às 18:00 (horário de Brasília)
+# Formato: minuto hora dia mês dia-da-semana comando
+
+# Redirecionar saída para log e usar shell sh
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
+# Check-out automático às 18:00 todos os dias
+# Para /etc/cron.d/ é necessário incluir o usuário no início
+# Usa o caminho completo do node para garantir que funcione
+0 18 * * * root cd /app && PORT=3333 HOST=0.0.0.0 /usr/local/bin/node ace auto:checkout-visitors >> /var/log/cron.log 2>&1
+
+# Manter linha em branco no final (requerido pelo cron)

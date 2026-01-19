@@ -5,6 +5,7 @@ import Inmate from './inmate.js'
 import VisitorObservation from './visitor_observation.js'
 import VisitorVisit from './visitor_visit.js'
 import VisitorStatus from './visitor_status.js'
+import VisitorCheckin from './visitor_checkin.js'
 
 export default class Visitor extends BaseModel {
   @column({ isPrimary: true })
@@ -54,4 +55,7 @@ export default class Visitor extends BaseModel {
 
   @hasMany(() => VisitorStatus)
   declare statuses: HasMany<typeof VisitorStatus>
+
+  @hasMany(() => VisitorCheckin)
+  declare checkins: HasMany<typeof VisitorCheckin>
 }

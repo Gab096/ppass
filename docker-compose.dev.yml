@@ -52,11 +52,46 @@ services:
       timeout: 5s
       retries: 5
 
+  # Scheduler para jobs agendados (check-out automático)
+  scheduler:
+    build:
+      context: .
+      dockerfile: Dockerfile.scheduler
+    container_name: p-pass-scheduler-dev
+    restart: unless-stopped
+    # Usar init para permitir que o cron funcione corretamente
+    init: true
+    environment:
+      NODE_ENV: development
+      APP_KEY: ${APP_KEY}
+      LOG_LEVEL: ${LOG_LEVEL:-debug}
+      PORT: 3333
+      HOST: 0.0.0.0
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: ${DB_USER:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-postgres}
+      DB_DATABASE: ${DB_DATABASE:-p_pass}
+      TZ: America/Sao_Paulo
+    depends_on:
+      postgres:
+        condition: service_healthy
+      app:
+        condition: service_started
+    networks:
+      - p-pass-network
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - scheduler_logs_dev:/var/log
+
 networks:
   p-pass-network:
     driver: bridge
 
 volumes:
   postgres_data_dev:
+    driver: local
+  scheduler_logs_dev:
     driver: local
 
